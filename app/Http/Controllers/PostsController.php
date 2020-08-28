@@ -101,7 +101,7 @@ class PostsController extends Controller
 
         $post->save();
 
-        return redirect(route('posts.index'));
+        return redirect()->route('posts.index');
 
     }
 
@@ -109,10 +109,66 @@ class PostsController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \LaraDev\Model\Post  $post
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        return redirect()->route('posts.index');
+    }
+
+    /**
+     * function responsible for sending files to the Recycle Bin
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\View\View
+     */
+    public function trashed()
+    {
+        $posts = Post::onlyTrashed()->get();
+        return view('posts.trashed', ['posts' =>$posts, 'titulo' => 'PostsLixeira']);
+    }
+
+    /**
+     * function responsible for restoring a file from the Recycle Bin
+     *
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function restore($id)
+    {
+        $post = Post::onlyTrashed()->where(['id' => $id])->first();
+        $post->restore();
+        return redirect()->route('posts.trashed');
+    }
+
+    /**
+     * function responsible for permanently deleting a file from the Recycle Bin
+     *
+     * @param $id
+     * @return \Illuminate\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function deleteTrashed($id)
+    {
+        $post = Post::onlyTrashed()->where(['id' => $id])->first();
+        $post->forceDelete();
+        return redirect()->route('posts.trashed');
+    }
+
+    public function restoreAll()
+    {
+        $posts = Post::onlyTrashed()->get();
+        foreach ($posts as $post) {
+            $post->restore();
+        }
+        return redirect()->route('posts.trashed');
+    }
+
+    public function deleteAll()
+    {
+        $posts = Post::onlyTrashed()->get();
+        foreach ($posts as $post) {
+            $post->forceDelete();
+        }
+        return redirect()->route('posts.trashed');
     }
 }

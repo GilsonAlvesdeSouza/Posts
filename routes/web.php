@@ -17,4 +17,9 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('posts/trashed', 'PostsController@trashed')->name('posts.trashed');
+Route::get('posts/{id}/restore', 'PostsController@restore')->name('posts.restore');
+Route::delete('posts/{id}/deleteTrashed', 'PostsController@deleteTrashed')->name('posts.deleteTrashed');
+Route::get('posts/restoreAll', 'PostsController@restoreAll')->name('posts.restoreAll');
+Route::get('posts/deleteAll', 'PostsController@deleteAll')->name('posts.deleteAll');
 Route::resource('posts', 'PostsController');

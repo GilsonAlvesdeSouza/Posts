@@ -5,12 +5,13 @@
 @endsection
 
 @section('cabecalho')
-    Listagem - Postagens
+    Lixeira - Postagens
 @endsection
 
 @section('conteudo')
-    <a href="{{ route("posts.create") }}" class="btn btn-success mb-0 my-3">Adicionar</a>
-    <a href="{{ route("posts.trashed") }}" class="btn btn-warning mb-0 my-3 mx-3">Lixeira</a>
+    <a href="{{ route("posts.restoreAll") }}" class="btn btn-success mb-0 my-3">Restaurar Todos</a>
+    <a href="{{ route("posts.deleteAll") }}" class="btn btn-danger mb-0 my-3 mx-3">Limpar Lixeira</a>
+    <a href="{{ route("posts.index") }}" class="btn btn-secondary mb-0 my-3">Voltar</a>
     <div class="container my-5">
         @if(sizeof($posts) == 0 )
             {{ "Nenhum registro encontrado!..." }}
@@ -28,11 +29,11 @@
                         <small>Criado em: {{ date('d/m/Y H:i', strtotime($post->criado_em))    }} - Editado
                             em: {{ date('d/m/Y  H:i', strtotime($post->alterado_em)) }}</small>
                         <div>
-                            <form action="{{ route('posts.destroy', ['post' => $post]) }}" method="post" autocomplete="off" >
+                            <form action="{{ route('posts.deleteTrashed', ['post' => $post]) }}" method="post" autocomplete="off" >
                                 @csrf
                                 @method('delete')
-                                <a href="{{ route('posts.edit', ['post' => $post]) }}"
-                                   class="btn btn-primary mr-auto mt-3">Editar</a>
+                                <a href="{{ route('posts.restore', ['id' => $post]) }}"
+                                   class="btn btn-primary mr-auto mt-3">Restaurar</a>
                                 <button type="submit" class="btn btn-danger ml-3 mt-3">Excluir</button>
                             </form>
                         </div>

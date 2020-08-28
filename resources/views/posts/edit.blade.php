@@ -5,7 +5,7 @@
 @endsection
 
 @section('cabecalho')
-    Editar Post
+    Editar Postagem
 @endsection
 
 @section('conteudo')
@@ -36,7 +36,8 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary my-3">Enviar</button>
+            <button type="submit" class="btn btn-primary my-3">Editar</button>
+            <a href="{{ route('posts.index') }}" class="btn btn-secondary my-3 mx-3">Cancelar</a>
         </form>
     </div>
 @endsection

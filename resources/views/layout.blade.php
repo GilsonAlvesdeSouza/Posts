@@ -10,7 +10,7 @@
 </head>
 <body>
 <div class="container my-2">
-    <div class="bg-primary text-white text-center">
+    <div class="bg-info text-white text-center">
         <h1>@yield("cabecalho")</h1>
     </div>
 
